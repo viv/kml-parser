@@ -1,2 +1,2 @@
-kmz-parser
+kml/kmz parser
 ==========
