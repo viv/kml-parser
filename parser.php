@@ -10,6 +10,11 @@ if ($zip->open($file) === TRUE) {
     echo $xml->Document->name . PHP_EOL;
 
     foreach ($xml->Document->Placemark as $placemark) {
+      if ($placemark->styleUrl == '#fpTrackStyle') {
+        foreach ($placemark->description->div->div->table->tr as $row) {
+          var_dump($row);
+        }
+      }
       echo $placemark->styleUrl . PHP_EOL;
     }
 
