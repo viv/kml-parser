@@ -4,9 +4,21 @@ $file = 'test/data/ride-one.kmz';
 $xml = getXml($file);
 
 echo getTrackName($xml) . PHP_EOL;
+
 echo getTrackDate($xml) . PHP_EOL;
 echo getDistance($xml) . PHP_EOL;
 echo getElapsedTime($xml) . PHP_EOL;
+echo getAverageSpeed($xml) . PHP_EOL;
+echo getMaxSpeed($xml) . PHP_EOL;
+echo getAveragePace($xml) . PHP_EOL;
+echo getMinAltitude($xml) . PHP_EOL;
+echo getMaxAltitude($xml) . PHP_EOL;
+echo getStartTime($xml) . PHP_EOL;
+echo getStartLatitude($xml) . PHP_EOL;
+echo getStartLongitude($xml) . PHP_EOL;
+echo getFinishTime($xml) . PHP_EOL;
+echo getFinishLatitude($xml) . PHP_EOL;
+echo getFinishLongitude($xml) . PHP_EOL;
 
 function getXml($file) {
     $zip = new ZipArchive;
@@ -43,38 +55,46 @@ function getElapsedTime($xml) {
     return strip_tags(getTrackDescription($xml)->div->div->table->tr[2]->td[1]->asXML());
 }
 
-function getMaxSpeed($xml) {
-    return $xml->Document->name;
+function getAverageSpeed($xml) {
+    return strip_tags(getTrackDescription($xml)->div->div->table->tr[3]->td[1]->asXML());
 }
 
-function getAverageSpeed($xml) {
-    return $xml->Document->name;
+function getMaxSpeed($xml) {
+    return strip_tags(getTrackDescription($xml)->div->div->table->tr[4]->td[1]->asXML());
 }
 
 function getAveragePace($xml) {
-    return $xml->Document->name;
+    return strip_tags(getTrackDescription($xml)->div->div->table->tr[5]->td[1]->asXML());
 }
 
 function getMinAltitude($xml) {
-    return $xml->Document->name;
+    return strip_tags(getTrackDescription($xml)->div->div->table->tr[6]->td[1]->asXML());
 }
 
 function getMaxAltitude($xml) {
-    return $xml->Document->name;
-}
-
-function getStartLocation($xml) {
-    return $xml->Document->name;
-}
-
-function getFinishLocation($xml) {
-    return $xml->Document->name;
+    return strip_tags(getTrackDescription($xml)->div->div->table->tr[7]->td[1]->asXML());
 }
 
 function getStartTime($xml) {
-    return $xml->Document->name;
+    return strip_tags(getTrackDescription($xml)->div->div->table[1]->tr[0]->td[1]->asXML());
+}
+
+function getStartLatitude($xml) {
+    return strip_tags(getTrackDescription($xml)->div->div->table[1]->tr[2]->td[1]->asXML());
+}
+
+function getStartLongitude($xml) {
+    return strip_tags(getTrackDescription($xml)->div->div->table[1]->tr[3]->td[1]->asXML());
 }
 
 function getFinishTime($xml) {
-    return $xml->Document->name;
+    return strip_tags(getTrackDescription($xml)->div->div->table[2]->tr[0]->td[1]->asXML());
+}
+
+function getFinishLatitude($xml) {
+    return strip_tags(getTrackDescription($xml)->div->div->table[2]->tr[2]->td[1]->asXML());
+}
+
+function getFinishLongitude($xml) {
+    return strip_tags(getTrackDescription($xml)->div->div->table[2]->tr[3]->td[1]->asXML());
 }
