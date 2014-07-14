@@ -13,7 +13,7 @@ class MotionX
     }
 
     public function getTrackName() {
-        return $this->xml->Document->name;
+        return (string) $this->xml->Document->name;
     }
 
     public function getTrackDescription() {
