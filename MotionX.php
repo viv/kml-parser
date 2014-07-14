@@ -77,22 +77,28 @@ class MotionX
         return strip_tags($this->getTrackDescription()->div->div->table[2]->tr[3]->td[1]->asXML());
     }
 
+    public function toArray() {
+        $result = array(
+            'name' => $this->getTrackName(),
+            'date' => $this->getTrackDate(),
+            'distance' => $this->getDistance(),
+            'duration' => $this->getElapsedTime(),
+            'averageSpeed' => $this->getAverageSpeed(),
+            'maximumSpeed' => $this->getMaxSpeed(),
+            'averagePace' => $this->getAveragePace(),
+            'minimumAltitude' => $this->getMinAltitude(),
+            'maximumAltitude' => $this->getMaxAltitude(),
+            'startTime' => $this->getStartTime(),
+            'finishTime' => $this->getFinishTime(),
+            'startLatitude' => $this->getStartLatitude(),
+            'finishLatitude' => $this->getFinishLatitude(),
+            'startLongitude' => $this->getStartLongitude(),
+            'finishLongitude' => $this->getFinishLongitude(),
+        );
+        return $result;        
+    }
+
     public function __toString() {
-        $out = $this->getTrackName() . PHP_EOL;
-        $out .= $this->getTrackDate() . PHP_EOL;
-        $out .= $this->getDistance() . PHP_EOL;
-        $out .= $this->getElapsedTime() . PHP_EOL;
-        $out .= $this->getAverageSpeed() . PHP_EOL;
-        $out .= $this->getMaxSpeed() . PHP_EOL;
-        $out .= $this->getAveragePace() . PHP_EOL;
-        $out .= $this->getMinAltitude() . PHP_EOL;
-        $out .= $this->getMaxAltitude() . PHP_EOL;
-        $out .= $this->getStartTime() . PHP_EOL;
-        $out .= $this->getStartLatitude() . PHP_EOL;
-        $out .= $this->getStartLongitude() . PHP_EOL;
-        $out .= $this->getFinishTime() . PHP_EOL;
-        $out .= $this->getFinishLatitude() . PHP_EOL;
-        $out .= $this->getFinishLongitude() . PHP_EOL;
-        return $out;
+        return print_r($this->toArray(), true);
     }
 }

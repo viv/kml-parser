@@ -1,7 +1,9 @@
 <?php
 require_once('MotionX.php');
 
-
+/**
+ * Generate Ride YAML for jekyll site
+ */
 class RideGenerator {
 
     private $rideFile;
@@ -29,6 +31,7 @@ class RideGenerator {
     }
 
     public function generateRide() {
-        echo new MotionX($this->getXml($this->rideFile));
+        $rideDetails = new MotionX($this->getXml($this->rideFile));
+        echo $rideDetails;
     }
 }
