@@ -95,7 +95,7 @@ class MotionX
             'startLongitude' => $this->getStartLongitude(),
             'finishLongitude' => $this->getFinishLongitude(),
         );
-        return $result;        
+        return $result;
     }
 
     public function __toString() {

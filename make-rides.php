@@ -1,6 +1,8 @@
 <?php
-require_once('RideGenerator.php');
+require_once('Parser.php');
 
 $file = 'test/data/ride-one.kmz';
-$generator = new RideGenerator($file);
-$generator->generateRide();
+
+$parser = new Parser($file);
+$parser->getRide();
+$parser->getRoute();
