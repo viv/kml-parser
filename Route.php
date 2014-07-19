@@ -11,44 +11,49 @@ class Route {
     private $finishLatitude;
     private $finishLongitude;
 
-    function __construct($route = array()) {
-        $this->fromArray($route);
-    }
-
-    public function fromArray($route) {
-
-        if (array_key_exists('name', $route)) {
-            $this->setName($route['name']);
+    function __construct(array $route) {
+        if (!empty($route)) {
+            $this->name = $route['name'];
+            $this->distance = $route['distance'];
+            $this->minimumAltitude = $route['minimumAltitude'];
+            $this->maximumAltitude = $route['maximumAltitude'];
+            $this->startLatitude = $route['startLatitude'];
+            $this->startLongitude = $route['startLongitude'];
+            $this->finishLatitude = $route['finishLatitude'];
+            $this->finishLongitude = $route['finishLongitude'];
         }
-
-        if (array_key_exists('distance', $route)) {
-            $this->setDistance($route['distance']);
-        }
-
     }
 
     public function getName() {
+        return $this->name;
     }
 
     public function getDistance() {
+        return $this->distance;
     }
 
     public function getMinimumAltitude() {
+        return $this->minimumAltitude;
     }
 
     public function getMaximumAltitude() {
+        return $this->maximumAltitude;
     }
 
     public function getStartLatitude() {
+        return $this->startLatitude;
     }
 
     public function getStartLongitude() {
+        return $this->startLongitude;
     }
 
     public function getFinishLatitude() {
+        return $this->finishLatitude;
     }
 
     public function getFinishLongitude() {
+        return $this->finishLongitude;
     }
 
     public function __toString() {
