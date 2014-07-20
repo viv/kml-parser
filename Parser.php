@@ -1,7 +1,5 @@
 <?php
 require_once('MotionX.php');
-require_once('Ride.php');
-require_once('Route.php');
 
 /**
  * Parse KML
@@ -41,14 +39,7 @@ class Parser {
     }
 
     public function getRide() {
-        $rideDetails = new MotionX($this->getXml());
-        $ride = new Ride($rideDetails->toArray());
-        return $ride;
-    }
-
-    public function getRoute() {
-        $rideDetails = new MotionX($this->getXml());
-        $route = new Route($rideDetails->toArray());
-        return $route;
+        $ride = new MotionX($this->getXml());
+        return $ride->toArray();
     }
 }
