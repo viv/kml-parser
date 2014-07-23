@@ -3,10 +3,16 @@ require_once('Parser.php');
 require_once('vendor/autoload.php');
 use Symfony\Component\Yaml\Yaml;
 
-$kmzFile = 'test/data/ride-one.kmz';
 $yamlFile = 'rides.yml';
 
 $rides = array();
+
+// Loop through files
+// Parse and append YAML
+// Move KMZ into folder for map to pick up
+// generate map code
+
+$kmzFile = 'test/data/ride-one.kmz';
 
 echo "Parsing {$kmzFile}" . PHP_EOL;
 $parser = new Parser($kmzFile);
