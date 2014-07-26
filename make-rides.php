@@ -7,18 +7,21 @@ $yamlFile = 'rides.yml';
 
 $rides = array();
 
-// Loop through files
-// Parse and append YAML
-// Move KMZ into folder for map to pick up
-// generate map code
+$kmzWatchDir = "test/data/";
 
-$kmzFile = 'test/data/ride-one.kmz';
-
-echo "Parsing {$kmzFile}" . PHP_EOL;
-$parser = new Parser($kmzFile);
-$rides[] = $parser->getRide();
+$kmzDir = new DirectoryIterator($kmzWatchDir);
+foreach ($kmzDir as $fileinfo) {
+    if ($fileinfo->getExtension() === 'kmz') {
+        echo "Processing " . $fileinfo->getFilename() . PHP_EOL;
+        $parser = new Parser($fileinfo->getRealPath());
+        $rides[] = $parser->getRide();
+    }
+}
 
 $yaml = Yaml::dump($rides, 3);
 echo "Ride data appended to {$yamlFile}" . PHP_EOL;
 
 file_put_contents($yamlFile, $yaml, FILE_APPEND);
+
+// Move KMZ into folder for map to pick up
+// generate map code
