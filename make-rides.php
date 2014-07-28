@@ -8,6 +8,7 @@ $yamlFile = 'rides.yml';
 $rides = array();
 
 $kmzWatchDir = "test/data/";
+$kmzDestDir = "rides/data/";
 
 $kmzDir = new DirectoryIterator($kmzWatchDir);
 foreach ($kmzDir as $fileinfo) {
@@ -15,6 +16,10 @@ foreach ($kmzDir as $fileinfo) {
         echo "Processing " . $fileinfo->getFilename() . PHP_EOL;
         $parser = new Parser($fileinfo->getRealPath());
         $rides[] = $parser->getRide();
+
+        // Move KMZ into folder for map to pick up
+        echo "Moving " . $fileinfo->getFilename() . " to {$kmzDestDir}" . PHP_EOL;
+        rename($fileinfo->getRealPath(), $kmzDestDir . $fileinfo->getFilename());
     }
 }
 
@@ -23,5 +28,6 @@ echo "Ride data appended to {$yamlFile}" . PHP_EOL;
 
 file_put_contents($yamlFile, $yaml, FILE_APPEND);
 
-// Move KMZ into folder for map to pick up
+
+
 // generate map code
