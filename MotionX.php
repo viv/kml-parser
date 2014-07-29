@@ -54,6 +54,7 @@ class MotionX
     }
 
     public function getStartTime() {
+        // TODO convert date format
         return strip_tags($this->getTrackDescription()->div->div->table[1]->tr[0]->td[1]->asXML());
     }
 
@@ -66,6 +67,7 @@ class MotionX
     }
 
     public function getFinishTime() {
+        // TODO convert date format
         return strip_tags($this->getTrackDescription()->div->div->table[2]->tr[0]->td[1]->asXML());
     }
 
