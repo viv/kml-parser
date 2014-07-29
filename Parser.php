@@ -38,6 +38,27 @@ class Parser {
         return $contents;
     }
 
+    public function geoFence($top, $right, $bottom, $left) {
+        $xml = $this->getXml();
+        $xml->registerXPathNamespace('kml', 'http://earth.google.com/kml/2.2');
+        $coordinates = (string) $xml->xpath('//kml:coordinates')[2];
+
+        foreach(preg_split("/((\r?\n)|(\r\n?))/", $coordinates) as $line){
+            if (!empty($line)) {
+                list($long, $lat, $alt) = explode(',', $line);
+
+                settype($long, "float");
+                settype($lat, "float");
+                settype($alt, "float");
+
+                if ($long < $right && $long > $left
+                    && $lat < $top && $lat > $bottom) {
+                    echo "In range: {$line}" . PHP_EOL;
+                }
+            }
+        }
+    }
+
     public function getRide() {
         $ride = new MotionX($this->getXml());
         return $ride->toArray();
