@@ -39,11 +39,8 @@ class Parser {
     }
 
     public function geoFence($top, $right, $bottom, $left) {
-        $xml = $this->getXml();
-        $xml->registerXPathNamespace('kml', 'http://earth.google.com/kml/2.2');
-        $coordinates = (string) $xml->xpath('//kml:coordinates')[2];
-
-        foreach(preg_split("/((\r?\n)|(\r\n?))/", $coordinates) as $line){
+        $coordinates = $this->getCoordinates();
+        foreach($coordinates as $line){
             if (!empty($line)) {
                 list($long, $lat, $alt) = explode(',', $line);
 
@@ -57,6 +54,13 @@ class Parser {
                 }
             }
         }
+    }
+
+    private function getCoordinates() {
+        $xml = $this->getXml();
+        $xml->registerXPathNamespace('kml', 'http://earth.google.com/kml/2.2');
+        $coordinates = (string) $xml->xpath('//kml:coordinates')[2];
+        return preg_split("/((\r?\n)|(\r\n?))/", $coordinates);
     }
 
     public function getRide() {
