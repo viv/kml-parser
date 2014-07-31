@@ -38,6 +38,7 @@ class MotionX
     }
 
     public function getMaxSpeed() {
+        // TODO limit max?
         return strip_tags($this->getTrackDescription()->div->div->table->tr[4]->td[1]->asXML());
     }
 
