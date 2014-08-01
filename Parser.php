@@ -60,7 +60,11 @@ class Parser {
         $xml = $this->getXml();
         $xml->registerXPathNamespace('kml', 'http://earth.google.com/kml/2.2');
         $coordinates = (string) $xml->xpath('//kml:coordinates')[2];
-        return preg_split("/((\r?\n)|(\r\n?))/", $coordinates);
+        return $this->linesToArray($coordinates);
+    }
+
+    private function linesToArray($string) {
+        return preg_split("/((\r?\n)|(\r\n?))/", $string);
     }
 
     public function getRide() {
