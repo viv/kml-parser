@@ -15,6 +15,7 @@ foreach ($kmzDir as $fileinfo) {
     if ($fileinfo->getExtension() === 'kmz') {
         echo "Processing " . $fileinfo->getFilename() . PHP_EOL;
         $parser = new Parser($fileinfo->getRealPath());
+
         $rides[] = $parser->getRide();
 
         // Move KMZ into folder for map to pick up

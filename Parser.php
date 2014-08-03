@@ -25,8 +25,8 @@ class Parser {
     }
 
     private function setXml() {
-        // Change this to use DOM
-        $this->xml = simplexml_load_string($this->readFromKmz());     
+        $this->xml = new DOMDocument();
+        $this->xml->loadXML($this->readFromKmz());
     }
 
     private function readFromKmz() {
@@ -69,8 +69,7 @@ class Parser {
     }
 
     public function getRide() {
-        // use simplexml_import_dom() to convert DOM to simplexml
-        $ride = new MotionX($this->getXml());
+        $ride = new MotionX(simplexml_import_dom($this->getXml()));
         return $ride->toArray();
     }
 }
