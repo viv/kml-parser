@@ -59,8 +59,8 @@ class Parser {
 
     private function getCoordinates() {
         $xml = $this->getXml();
-        $xml->registerXPathNamespace('kml', 'http://earth.google.com/kml/2.2');
-        $coordinates = (string) $xml->xpath('//kml:coordinates')[2];
+        $ls = $xml->getElementsByTagName('LineString')->item(0);
+        $coordinates = $ls->getElementsByTagName('coordinates')->item(0)->nodeValue;
         return $this->linesToArray($coordinates);
     }
 
