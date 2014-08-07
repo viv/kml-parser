@@ -39,8 +39,17 @@ class Parser {
         return $contents;
     }
 
+    private function saveKmz() {
+        $zip = new ZipArchive;
+        if ($zip->open($this->sourceFile, ZipArchive::CREATE) === TRUE) {
+            $zip->addFromString('doc.kml', $this->getXml()->saveXml());
+            $zip->close();
+        }
+    }
+
     public function geoFence($top, $right, $bottom, $left) {
         $coordinates = $this->getCoordinates();
+        $geoFenced = "";
         foreach($coordinates as $line){
             if (!empty($line)) {
                 list($long, $lat, $alt) = explode(',', $line);
@@ -52,9 +61,12 @@ class Parser {
                 if ($long < $right && $long > $left
                     && $lat < $top && $lat > $bottom) {
                     echo "In range: {$line}" . PHP_EOL;
+                } else {
+                    $geoFenced .= "{$long}, {$lat}, {$alt}" . PHP_EOL;
                 }
             }
         }
+        $this->setCoordinates($geoFenced);
     }
 
     private function getCoordinates() {
@@ -62,6 +74,13 @@ class Parser {
         $ls = $xml->getElementsByTagName('LineString')->item(0);
         $coordinates = $ls->getElementsByTagName('coordinates')->item(0)->nodeValue;
         return $this->linesToArray($coordinates);
+    }
+
+    private function setCoordinates($coordinates) {
+        $xml = $this->getXml();
+        $ls = $xml->getElementsByTagName('LineString')->item(0);
+        $ls->getElementsByTagName('coordinates')->item(0)->nodeValue = $coordinates;
+        $this->saveKmz();
     }
 
     private function linesToArray($string) {
