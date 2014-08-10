@@ -84,7 +84,7 @@ class Parser {
 
             if ($long < $right && $long > $left
                 && $lat < $top && $lat > $bottom) {
-                echo "Removing start XML node $long $lat $alt" . PHP_EOL;                
+                echo "Removing start XML node $long $lat $alt" . PHP_EOL;
                 $this->setStartCoordinates('');
             } else {
                 echo "Leave node as is";
