@@ -70,6 +70,7 @@ class Parser {
         $this->setCoordinates($geoFenced);
         $this->fenceStart($top, $right, $bottom, $left);
         $this->fenceFinish($top, $right, $bottom, $left);
+        $this->saveKmz();
     }
 
     private function fenceStart($top, $right, $bottom, $left) {
@@ -83,14 +84,15 @@ class Parser {
 
             if ($long < $right && $long > $left
                 && $lat < $top && $lat > $bottom) {
-                echo "Remove XML node $long $lat $alt" . PHP_EOL;
+                echo "Removing start XML node $long $lat $alt" . PHP_EOL;                
+                $this->setStartCoordinates('');
             } else {
                 echo "Leave node as is";
             }
         }
         // Save nodes
     }
-    
+
     private function fenceFinish($top, $right, $bottom, $left) {
         $finishCoordinates = $this->getFinishCoordinates();
         if (!empty($finishCoordinates)) {
@@ -102,7 +104,8 @@ class Parser {
 
             if ($long < $right && $long > $left
                 && $lat < $top && $lat > $bottom) {
-                echo "Remove XML node $long $lat $alt" . PHP_EOL;
+                echo "Removing finish XML node $long $lat $alt" . PHP_EOL;
+                $this->setFinishCoordinates('');
             } else {
                 echo "Leave node as is";
             }
@@ -121,7 +124,6 @@ class Parser {
         $xml = $this->getXml();
         $ls = $xml->getElementsByTagName('LineString')->item(0);
         $ls->getElementsByTagName('coordinates')->item(0)->nodeValue = $coordinates;
-        $this->saveKmz();
     }
 
     private function getStartCoordinates() {
@@ -134,6 +136,18 @@ class Parser {
         $xml = $this->getXml();
         $point = $xml->getElementsByTagName('Point')->item(1);
         return $point->getElementsByTagName('coordinates')->item(0)->nodeValue;
+    }
+
+    private function setStartCoordinates($coordinates) {
+        $xml = $this->getXml();
+        $point = $xml->getElementsByTagName('Point')->item(0);
+        $point->getElementsByTagName('coordinates')->item(0)->nodeValue = $coordinates;
+    }
+
+    private function setFinishCoordinates($coordinates) {
+        $xml = $this->getXml();
+        $point = $xml->getElementsByTagName('Point')->item(1);
+        $point->getElementsByTagName('coordinates')->item(0)->nodeValue = $coordinates;
     }
 
     private function linesToArray($string) {
