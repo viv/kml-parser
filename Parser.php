@@ -69,12 +69,13 @@ class Parser {
 
         $this->setCoordinates($geoFenced);
         $this->fenceStart($top, $right, $bottom, $left);
-        $this->fenceFinish($top, $right, $bottom, $left);
-        $this->saveKmz();
+        $this->fenceEnd($top, $right, $bottom, $left);
+        //$this->saveKmz();
     }
 
     private function fenceStart($top, $right, $bottom, $left) {
-        $startCoordinates = $this->getStartCoordinates();
+        $startPlacemark = $this->getStartPlacemark();
+        $startCoordinates = $startPlacemark->getElementsByTagName('coordinates')->item(0)->nodeValue;
         if (!empty($startCoordinates)) {
             list($long, $lat, $alt) = explode(',', $startCoordinates);
 
@@ -85,18 +86,18 @@ class Parser {
             if ($long < $right && $long > $left
                 && $lat < $top && $lat > $bottom) {
                 echo "Removing start XML node $long $lat $alt" . PHP_EOL;
-                $this->setStartCoordinates('');
+                $this->removeStartPlacemark();
             } else {
-                echo "Leave node as is";
+                echo "Leave node as is" . PHP_EOL;
             }
         }
-        // Save nodes
     }
 
-    private function fenceFinish($top, $right, $bottom, $left) {
-        $finishCoordinates = $this->getFinishCoordinates();
-        if (!empty($finishCoordinates)) {
-            list($long, $lat, $alt) = explode(',', $finishCoordinates);
+    private function fenceEnd($top, $right, $bottom, $left) {
+        $endPlacemark = $this->getEndPlacemark();
+        $endCoordinates = $endPlacemark->getElementsByTagName('coordinates')->item(0)->nodeValue;
+        if (!empty($endCoordinates)) {
+            list($long, $lat, $alt) = explode(',', $endCoordinates);
 
             settype($long, "float");
             settype($lat, "float");
@@ -104,13 +105,12 @@ class Parser {
 
             if ($long < $right && $long > $left
                 && $lat < $top && $lat > $bottom) {
-                echo "Removing finish XML node $long $lat $alt" . PHP_EOL;
-                $this->setFinishCoordinates('');
+                echo "Removing end XML node $long $lat $alt" . PHP_EOL;
+                $this->removeEndPlacemark();
             } else {
-                echo "Leave node as is";
+                echo "Leave node as is" . PHP_EOL;
             }
         }
-        // Save nodes
     }
 
     private function getCoordinates() {
@@ -122,32 +122,40 @@ class Parser {
 
     private function setCoordinates($coordinates) {
         $xml = $this->getXml();
-        $ls = $xml->getElementsByTagName('LineString')->item(0);
+        $ls = $xml->getElementsByTagName('Placemark')->item(0);
         $ls->getElementsByTagName('coordinates')->item(0)->nodeValue = $coordinates;
     }
 
-    private function getStartCoordinates() {
+    private function getStartPlacemark() {
         $xml = $this->getXml();
-        $point = $xml->getElementsByTagName('Point')->item(0);
-        return $point->getElementsByTagName('coordinates')->item(0)->nodeValue;
+        $placemarks = $xml->getElementsByTagName('Placemark');
+        foreach ($placemarks as $placemark) {
+            $name = $placemark->getElementsByTagName('name')->item(0)->nodeValue;
+            if ($name == "Start") {
+                return $placemark;
+            }
+        }
     }
 
-    private function getFinishCoordinates() {
+    private function getEndPlacemark() {
         $xml = $this->getXml();
-        $point = $xml->getElementsByTagName('Point')->item(1);
-        return $point->getElementsByTagName('coordinates')->item(0)->nodeValue;
+        $placemarks = $xml->getElementsByTagName('Placemark');
+        foreach ($placemarks as $placemark) {
+            $name = $placemark->getElementsByTagName('name')->item(0)->nodeValue;
+            if ($name == "End") {
+                return $placemark;
+            }
+        }
     }
 
-    private function setStartCoordinates($coordinates) {
-        $xml = $this->getXml();
-        $point = $xml->getElementsByTagName('Point')->item(0);
-        $point->getElementsByTagName('coordinates')->item(0)->nodeValue = $coordinates;
+    private function removeStartPlacemark() {
+        $placemark = $this->getStartPlacemark();
+        $placemark->parentNode->removeChild($placemark);
     }
 
-    private function setFinishCoordinates($coordinates) {
-        $xml = $this->getXml();
-        $point = $xml->getElementsByTagName('Point')->item(1);
-        $point->getElementsByTagName('coordinates')->item(0)->nodeValue = $coordinates;
+    private function removeEndPlacemark() {
+        $placemark = $this->getEndPlacemark();
+        $placemark->parentNode->removeChild($placemark);
     }
 
     private function linesToArray($string) {
