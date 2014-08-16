@@ -48,6 +48,9 @@ class Parser {
     }
 
     public function geoFence($top, $right, $bottom, $left) {
+        $this->fenceStart($top, $right, $bottom, $left);
+        $this->fenceEnd($top, $right, $bottom, $left);
+
         $coordinates = $this->getCoordinates();
         $geoFenced = "";
         foreach($coordinates as $line){
@@ -68,9 +71,7 @@ class Parser {
         }
 
         $this->setCoordinates($geoFenced);
-        $this->fenceStart($top, $right, $bottom, $left);
-        $this->fenceEnd($top, $right, $bottom, $left);
-        //$this->saveKmz();
+        $this->saveKmz();
     }
 
     private function fenceStart($top, $right, $bottom, $left) {
@@ -88,7 +89,7 @@ class Parser {
                 echo "Removing start XML node $long $lat $alt" . PHP_EOL;
                 $this->removeStartPlacemark();
             } else {
-                echo "Leave node as is" . PHP_EOL;
+                echo "Leave start node as is: {$startCoordinates}" . PHP_EOL;
             }
         }
     }
@@ -108,7 +109,7 @@ class Parser {
                 echo "Removing end XML node $long $lat $alt" . PHP_EOL;
                 $this->removeEndPlacemark();
             } else {
-                echo "Leave node as is" . PHP_EOL;
+                echo "Leave end node as is: {$endCoordinates}" . PHP_EOL;
             }
         }
     }
