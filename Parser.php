@@ -86,7 +86,7 @@ class Parser {
 
             if ($long < $right && $long > $left
                 && $lat < $top && $lat > $bottom) {
-                echo "Removing start XML node $long $lat $alt" . PHP_EOL;
+                echo "Removing start node: {$startCoordinates}" . PHP_EOL;
                 $this->removeStartPlacemark();
             } else {
                 echo "Leave start node as is: {$startCoordinates}" . PHP_EOL;
@@ -106,7 +106,7 @@ class Parser {
 
             if ($long < $right && $long > $left
                 && $lat < $top && $lat > $bottom) {
-                echo "Removing end XML node $long $lat $alt" . PHP_EOL;
+                echo "Removing end node: {$endCoordinates}" . PHP_EOL;
                 $this->removeEndPlacemark();
             } else {
                 echo "Leave end node as is: {$endCoordinates}" . PHP_EOL;
