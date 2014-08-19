@@ -16,6 +16,13 @@ foreach ($kmzDir as $fileinfo) {
         echo "Processing " . $fileinfo->getFilename() . PHP_EOL;
         $parser = new Parser($fileinfo->getRealPath());
 
+        $top = 51.545425;
+        $right = -3.568107;
+        $bottom = 51.539727;
+        $left = -3.57891;
+
+        $parser->geoFence($top, $right, $bottom, $left);
+
         $rides[] = $parser->getRide();
 
         // Move KMZ into folder for map to pick up
