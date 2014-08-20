@@ -51,6 +51,7 @@ class Parser {
         $this->fenceStart($top, $right, $bottom, $left);
         $this->fenceEnd($top, $right, $bottom, $left);
 
+        echo "Fencing track" . PHP_EOL;
         $coordinates = $this->getCoordinates();
         $geoFenced = "";
         foreach($coordinates as $line){
