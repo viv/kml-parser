@@ -93,10 +93,6 @@ class MotionX
             'maximumAltitude' => $this->getMaxAltitude(),
             'startTime' => $this->getStartTime(),
             'finishTime' => $this->getFinishTime(),
-            'startLatitude' => $this->getStartLatitude(),
-            'finishLatitude' => $this->getFinishLatitude(),
-            'startLongitude' => $this->getStartLongitude(),
-            'finishLongitude' => $this->getFinishLongitude(),
         );
         return $result;
     }
