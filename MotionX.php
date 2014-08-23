@@ -40,7 +40,7 @@ class MotionX
     public function getMaxSpeed() {
         $max = strip_tags($this->getTrackDescription()->div->div->table->tr[4]->td[1]->asXML());
         if ($max > 60) {
-            $max = 60;
+            $max = '60 mph';
         }
         return $max;
     }
