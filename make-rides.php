@@ -7,8 +7,8 @@ $yamlFile = 'rides.yml';
 
 $rides = array();
 
-$kmzWatchDir = "test/data/";
-$kmzDestDir = "rides/data/";
+$kmzWatchDir = "rides/data/in/";
+$kmzDestDir = "rides/data/processed/";
 
 $kmzDir = new DirectoryIterator($kmzWatchDir);
 foreach ($kmzDir as $fileinfo) {
