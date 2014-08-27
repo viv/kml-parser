@@ -29,7 +29,9 @@ foreach ($kmzDir as $fileinfo) {
 
         $parser->geoFence($top, $right, $bottom, $left);
 
-        $rides[] = $parser->getRide();
+        $ride = $parser->getRide();
+        $ride['filename'] = $filename;
+        $rides[] = $ride;
 
         // Move KMZ into folder for map to pick up
         echo "Moving " . $fileinfo->getFilename() . " to {$kmzDestDir}{$filename}" . PHP_EOL;
