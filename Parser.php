@@ -53,7 +53,8 @@ class Parser {
 
         echo "Fencing track" . PHP_EOL;
         $coordinates = $this->getCoordinates();
-        $geoFenced = "";
+        $outsideFence = "";
+        $insideFence = 0;
         foreach($coordinates as $line){
             if (!empty($line)) {
                 list($long, $lat, $alt) = explode(',', $line);
@@ -64,14 +65,15 @@ class Parser {
 
                 if ($long < $right && $long > $left
                     && $lat < $top && $lat > $bottom) {
-                    // echo "In range: {$line}" . PHP_EOL;
+                    $insideFence++;
                 } else {
-                    $geoFenced .= "{$long}, {$lat}, {$alt}" . PHP_EOL;
+                    $outsideFence .= "{$long}, {$lat}, {$alt}" . PHP_EOL;
                 }
             }
         }
 
-        $this->setCoordinates($geoFenced);
+        echo "Fenced {$insideFence} coordinates" . PHP_EOL;
+        $this->setCoordinates($outsideFence);
         $this->saveKmz();
     }
 
