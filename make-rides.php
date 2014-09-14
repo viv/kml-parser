@@ -31,6 +31,9 @@ foreach ($kmzDir as $fileinfo) {
 
         $ride = $parser->getRide();
         $ride['filename'] = $filename;
+
+        $ride['id'] = sha1(implode($ride));
+
         $rides[] = $ride;
 
         // Move KMZ into folder for map to pick up
